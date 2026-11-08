@@ -17,6 +17,7 @@ class InserateBatchRequest(BaseModel):
 
 @router.post(
     "/inserate/batch",
+    operation_id="get_listings_batch",
     response_model=BatchResponse,
     response_model_exclude_unset=True,
     responses={

@@ -13,6 +13,7 @@ router = APIRouter()
 
 @router.get(
     "/inserat/{id}",
+    operation_id="get_listing",
     response_model=ListingDetailResponse,
     response_model_exclude_unset=True,
     responses={

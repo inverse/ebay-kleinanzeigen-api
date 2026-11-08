@@ -14,6 +14,7 @@ router = APIRouter()
 
 @router.get(
     "/inserate",
+    operation_id="search_listings",
     response_model=SearchResponse,
     response_model_exclude_unset=True,
     responses={

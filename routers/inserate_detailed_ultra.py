@@ -18,6 +18,7 @@ router = APIRouter()
 
 @router.get(
     "/inserate-detailed",
+    operation_id="search_listings_with_details",
     response_model=DetailedSearchResponse,
     response_model_exclude_unset=True,
     responses={

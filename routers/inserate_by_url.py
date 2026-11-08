@@ -16,6 +16,7 @@ class InserateByUrlRequest(BaseModel):
 
 @router.post(
     "/inserate-by-url",
+    operation_id="search_listings_by_url",
     response_model=SearchResponse,
     response_model_exclude_unset=True,
     responses={

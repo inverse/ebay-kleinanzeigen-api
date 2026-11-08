@@ -2,6 +2,7 @@ import sys
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi_mcp import FastApiMCP
 
 from routers import (
     convert_url,
@@ -69,7 +70,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(version="1.0.0", lifespan=lifespan)
 
 
-@app.get("/", response_model=RootResponse)
+for _module in _ROUTER_MODULES:
+    app.include_router(_module.router)
+
+
+@app.get("/", response_model=RootResponse, operation_id="root", include_in_schema=False)
 async def root():
     return {
         "message": "Welcome to the Kleinanzeigen API",
@@ -80,5 +85,9 @@ async def root():
     }
 
 
-for _module in _ROUTER_MODULES:
-    app.include_router(_module.router)
+# Expose every API endpoint as an MCP tool over Streamable HTTP at /mcp.
+# Must run last: tools are generated from app.routes at FastApiMCP
+# construction time. The MCP endpoint shares this process and reuses
+# app.state.browser_manager - no second Playwright instance.
+mcp = FastApiMCP(app, name="kleinanzeigen", exclude_operations=["root"])
+mcp.mount_http()

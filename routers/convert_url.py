@@ -16,6 +16,7 @@ class ConvertUrlRequest(BaseModel):
 
 @router.post(
     "/convert-url",
+    operation_id="convert_search_url",
     response_model=ConvertUrlResponse,
     response_model_exclude_unset=True,
 )
